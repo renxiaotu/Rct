@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <title>任小兔·canvas工具集·读取|renxiaotu·canvas tools·read</title>
+    <style>
+        ul{list-style-type:decimal;list-style-position: inside;}
+        li{border: solid 1px #999;font-size: 22px;font-weight: bold;padding: 5px;}
+        h3{font-size: 18px;margin: 0;}
+        canvas{border:solid 1px #bbb;width: 300px;height: 150px;}
+        span{font-size: 14px;color: #666;}
+        input[type=number]{width: 60px;}
+        pre{background-color: #666;margin: 0;font-size: 14px;}
+    </style>
+</head>
+<body>
+<h1>任小兔·canvas工具集·读取</h1>
+<i>注：所有示例中的canvas尺寸都是300x150</i>
+<div>
+    <ul>
+        <li>
+            读取画布所有像素信息
+            <div>
+                <h3>原图:</h3>
+                <div><canvas id="getDataOriginal" width="300" height="150"></canvas></div>
+            </div>
+            <div>
+                <h3>操作:</h3>
+                <div style="overflow: hidden;">
+                    <div style="float: left;">
+                        <div><span>起始位置x(sx):<input type="number" max="300" min="0" placeholder="0~300" value="0" id="getDataSx" />px</span></div>
+                        <div><span>起始位置y(sy):<input type="number" max="300" min="0" placeholder="0~150" value="0" id="getDataSy" />px</span></div>
+                        <div><span>读取宽度w(sw):<input type="number" max="300" min="0" placeholder="0~300" value="0" id="getDataSw" />px</span></div>
+                        <div><span>读取高度h(sh):<input type="number" max="300" min="0" placeholder="0~150" value="0" id="getDataSh" />px</span></div>
+                        <div><input type="button" value="读取" id="getDataButton" /></div>
+                    </div>
+                </div>
+            </div>
+            <div>
+                <h3>结果:</h3>
+                <div><canvas id="getDataCurrent" width="300" height="150"></canvas></div>
+            </div>
+        </li>
+    </ul>
+</div>
+</body>
+<script src="../src/rxt.rct.read.js"></script>
+<script>
+    (function(){
+        //getData,读取画布所有像素信息
+        let original=document.getElementById('getDataOriginal');
+        let current=document.getElementById('getDataCurrent');
+        let btn=document.getElementById('getDataButton');
+        let o_ctx=original.getContext('2d');
+        let c_ctx=current.getContext('2d');
+
+        //画原图
+        let gradient=o_ctx.createLinearGradient(0,0,original.width,0);
+        gradient.addColorStop(0,"magenta");
+        gradient.addColorStop(0.5,"blue");
+        gradient.addColorStop(1,"red");
+
+        o_ctx.fillStyle=gradient;
+        o_ctx.fillRect(0,0,original.width,original.height);
+
+        o_ctx.fillStyle="#fff";
+        o_ctx.font = "24px sans-serif";
+        o_ctx.fillText('dev.renxiaotu.com', 40, 40);
+
+        //读取颜色值并画在结果中
+        let sx=document.getElementById('getDataSx');
+        let sy=document.getElementById('getDataSy');
+        let sw=document.getElementById('getDataSw');
+        let sh=document.getElementById('getDataSh');
+        function getData(){
+            c_ctx.clearRect(0,0,current.width,current.height);
+            let result=rxt.rct.read.getData(original,sx.value,sy.value,sw.value,sh.value);
+            c_ctx.putImageData(result,sx.value,sy.value);
+        }
+        btn.onclick=getData;
+        getData();
+    })();
+
+</script>
+</html>
