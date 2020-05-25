@@ -6,13 +6,13 @@
 1. [rxt.rct.read](#rxt.rct.read)
 2. [Core Style Guide](https://contribute.jquery.org/style-guide/js/)
 
-### rxt.rct.read
+# rxt.rct.read
 --------------
-- getData
+## getData
 
-参数：
-
-| 参数 | 是否必须 | 默认值 | 说明 |
+####参数
+---
+| 名称 | 是否必须 | 默认值 | 说明 |
 |---------|--------|------|--------------|
 | canvas | 是 | 无 | 浏览器画布对象 |
 | sx | 否 | 0 | 开始位置x值 |
