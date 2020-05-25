@@ -1,4 +1,4 @@
- [rct](https://jquery.com/) — renxiaotu canvas tools
+[rct](https://dev.renxiaotu.com/js/rct) — renxiaotu canvas tools|任小兔画布工具箱
 ==============
 
 插件列表
@@ -7,12 +7,11 @@
 2. [Core Style Guide](https://contribute.jquery.org/style-guide/js/)
 
 # rxt.rct.read
---------------
 
 ## getData
 
 #### 参数
----
+
 | 名称 | 是否必须 | 默认值 | 说明 |
 |---------|--------|------|--------------|
 | canvas | 是 | 无 | 浏览器画布对象 |
