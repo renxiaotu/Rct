@@ -37,6 +37,7 @@
          */
         this.getGridByColor=function (canvas,color=[255,255,255,255,0],step=1,reverse=false) {
             let data= this.getData(canvas).data;
+            console.log(data);
             let gridList=[];
             let width=canvas.width;
             let height=canvas.height;
