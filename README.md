@@ -1,16 +1,20 @@
 [rct](https://dev.renxiaotu.com/js/rct) — renxiaotu canvas tools|任小兔画布工具箱
 ==============
 
-插件列表
+工具列表
 --------------
 1. [rxt.rct.read](#rxt.rct.read)
-2. [Core Style Guide](https://contribute.jquery.org/style-guide/js/)
 
 # rxt.rct.read
+画布数据读取工具
+
+- [getData]：读取ImageData对象
+- [getData32]：画布像素色值转10进制(Uint32Array)
+- [getGridByColor]：读取色值范围所在坐标和颜色
 
 ## getData
 
-#### 参数
+参数:
 
 | 名称 | 是否必须 | 默认值 | 说明 |
 |---------|--------|------|--------------|
