@@ -5,7 +5,7 @@
     <title>任小兔·canvas工具集·读取|renxiaotu·canvas tools·read</title>
     <style>
         ul{list-style-type:decimal;list-style-position: inside;}
-        li{border: solid 1px #999;font-size: 22px;font-weight: bold;padding: 5px;}
+        li{border: solid 1px #999;font-size: 22px;font-weight: bold;padding: 5px;margin: 20px 0;}
         h3{font-size: 18px;margin: 0;}
         canvas{border:solid 1px #bbb;width: 300px;height: 150px;}
         span{font-size: 14px;color: #666;}
@@ -39,6 +39,51 @@
             <div>
                 <h3>结果:</h3>
                 <div><canvas id="getDataCurrent" width="300" height="150"></canvas></div>
+            </div>
+        </li>
+        <li>
+            读取画布所有像素信息
+            <div>
+                <h3>原图:</h3>
+                <div><canvas id="getData32Original" width="300" height="150"></canvas></div>
+            </div>
+            <div>
+                <h3>操作:</h3>
+                <div style="overflow: hidden;">
+                    <div style="float: left;">
+                        <div><span>起始位置x(sx):<input type="number" max="300" min="0" placeholder="0~300" value="0" id="getData32Sx" />px</span></div>
+                        <div><span>起始位置y(sy):<input type="number" max="300" min="0" placeholder="0~150" value="0" id="getData32Sy" />px</span></div>
+                        <div><span>读取宽度w(sw):<input type="number" max="300" min="0" placeholder="0~300" value="0" id="getData32Sw" />px</span></div>
+                        <div><span>读取高度h(sh):<input type="number" max="300" min="0" placeholder="0~150" value="0" id="getData32Sh" />px</span></div>
+                        <div><input type="button" value="读取" id="getData32Button" /></div>
+                    </div>
+                </div>
+            </div>
+            <div>
+                <h3>结果:</h3>
+                <div><canvas id="getData32Current" width="300" height="150"></canvas></div>
+            </div>
+        </li>
+        <li>
+            读取画布指定颜色
+            <div>
+                <h3>原图:</h3>
+                <div><canvas id="getGridByColorOriginal" width="300" height="150"></canvas></div>
+            </div>
+            <div>
+                <h3>操作:</h3>
+                <div style="overflow: hidden;">
+                    <div style="float: left;">
+                        <div><span>波动/偏差:<input type="number" max="300" min="0" placeholder="0~256" value="0" id="getGridByColorDeviation" /></span></div>
+                        <div><span>间隔:<input type="number" max="300" min="0" placeholder="0~256" value="0" id="getGridByColorStep" /></span></div>
+                        <div><span>反选:<input type="checkbox" value="1" id="getGridByColorReverse" /></span></div>
+                        <div>操作：点击上面的原图选取颜色</div>
+                    </div>
+                </div>
+            </div>
+            <div>
+                <h3>结果:</h3>
+                <div><canvas id="getGridByColorCurrent" width="300" height="150"></canvas></div>
             </div>
         </li>
     </ul>
@@ -79,6 +124,101 @@
         }
         btn.onclick=getData;
         getData();
+    })();
+
+
+    (function(){
+        //getData32,读取画布所有像素信息
+        let original=document.getElementById('getData32Original');
+        let current=document.getElementById('getData32Current');
+        let btn=document.getElementById('getData32Button');
+        let o_ctx=original.getContext('2d');
+        let c_ctx=current.getContext('2d');
+
+        //画原图
+        let gradient=o_ctx.createLinearGradient(0,0,original.width,0);
+        gradient.addColorStop(0,"magenta");
+        gradient.addColorStop(0.5,"blue");
+        gradient.addColorStop(1,"red");
+
+        o_ctx.fillStyle=gradient;
+        o_ctx.fillRect(0,0,original.width,original.height);
+
+        o_ctx.fillStyle="#fff";
+        o_ctx.font = "24px sans-serif";
+        o_ctx.fillText('dev.renxiaotu.com', 40, 40);
+
+        //读取颜色值并画在结果中
+        let sx=document.getElementById('getData32Sx');
+        let sy=document.getElementById('getData32Sy');
+        let sw=document.getElementById('getData32Sw');
+        let sh=document.getElementById('getData32Sh');
+        function getData(){
+            c_ctx.clearRect(0,0,current.width,current.height);
+            let result=rxt.rct.read.getData32(original,sx.value,sy.value,sw.value,sh.value);
+            let imageDate=c_ctx.createImageData(sw.value==='0'?current.width:sw.value,sh.value==='0'?current.height:sh.value);
+            for (let i=0,j=0;i<imageDate.data.length;i+=4,j++){
+                let r=result[j]%256;
+                let g=(result[j]-r)/256;
+                let b=g;
+                g=g%256;
+                b=(b-g)/256;
+                let a=b;
+                b=b%256;
+                a=(a-b)/256;
+                imageDate.data[i]=r;
+                imageDate.data[i+1]=g;
+                imageDate.data[i+2]=b;
+                imageDate.data[i+3]=a;
+
+            }
+            c_ctx.putImageData(imageDate,sx.value,sy.value);
+        }
+        btn.onclick=getData;
+        getData();
+    })();
+
+
+    (function(){
+        //getData32,读取画布所有像素信息
+        let original=document.getElementById('getGridByColorOriginal');
+        let current=document.getElementById('getGridByColorCurrent');
+        let o_ctx=original.getContext('2d');
+        let c_ctx=current.getContext('2d');
+
+        //画原图
+        let gradient=o_ctx.createLinearGradient(0,0,original.width,0);
+        gradient.addColorStop(0,"magenta");
+        gradient.addColorStop(0.5,"blue");
+        gradient.addColorStop(1,"red");
+
+        o_ctx.fillStyle=gradient;
+        o_ctx.fillRect(0,0,original.width,original.height);
+
+        o_ctx.fillStyle="#fff";
+        o_ctx.font = "24px sans-serif";
+        o_ctx.fillText('dev.renxiaotu.com', 40, 40);
+
+        //读取颜色值并画在结果中
+        let d=document.getElementById('getGridByColorDeviation');
+        let s=document.getElementById('getGridByColorStep');
+        let r=document.getElementById('getGridByColorReverse');
+        function getData(e){
+            c_ctx.clearRect(0,0,current.width,current.height);
+            let imgData=o_ctx.getImageData(e.offsetX,e.offsetY,1,1);
+            let list=rxt.rct.read.getGridByColor(original,[imgData.data[0],imgData.data[1],imgData.data[2],imgData.data[3],d.value],Math.max(1,s.value),r.checked);
+            let imageDate=c_ctx.createImageData(current.width,current.height);
+            for (let i in list){
+                let row=list[i];
+                let j=(row.y * current.width + row.x)*4;
+                imageDate.data[j]=row.data[0];
+                imageDate.data[j+1]=row.data[1];
+                imageDate.data[j+2]=row.data[2];
+                imageDate.data[j+3]=row.data[3];
+            }
+            c_ctx.putImageData(imageDate,0,0);
+        }
+        original.onclick=getData;
     })();
 
 </script>
