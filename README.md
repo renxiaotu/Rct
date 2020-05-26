@@ -3,7 +3,7 @@
 
 工具列表
 --------------
-1. [rxt.rct.read](#rxt.rct.read)
+1. [rxt.rct.read](#rxt.rct.read)    *画布数据读取工具* `画布数据读取工具` _画布数据读取工具_
 
 # rxt.rct.read
 画布数据读取工具
