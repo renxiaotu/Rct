@@ -30,44 +30,45 @@
 
         /**读取画布指定色值所在坐标
          * @param canvas    画布
-         * @param color     指定色值[r,g,b,a,d]  [红，绿，蓝，不透明度，偏差]
-         * @param step      步进（每读取一个像素前进指定步数）
+         * @param color     指定色值[r,g,b,a]  [红，绿，蓝，不透明度]
+         * @param deviation 色值偏差0~255
+         * @param space     间隔（每间隔指定步数读取一个像素）
          * @param reverse   反选-读取除指定颜色外的所有
          * @returns {[]}    色值数组
          */
-        this.getGridByColor=function (canvas,color=[255,255,255,255,0],step=1,reverse=false) {
+        this.getGridByColor=function (canvas,color=[255,255,255,255],deviation=0,space=0,reverse=false) {
             let data= this.getData(canvas).data;
-            console.log(data);
             let gridList=[];
             let width=canvas.width;
             let height=canvas.height;
-            step=Math.max(parseInt(step),1);
+            space=Math.max(parseInt(space),0)+1;
 
             if(reverse){
-                color[4]++;
-                for (let x = 0; x < width; x += step) {
-                    for (let y = 0; y < height; y += step) {
+                deviation++;
+                for (let x = 0; x < width; x += space) {
+                    for (let y = 0; y < height; y += space) {
                         let i=(y * width + x)*4;
                         let bool=true;
-                        if(Math.abs(data[i]-color[0])>color[4])bool=false;
-                        if(bool&&Math.abs(data[i+1]-color[1])>color[4])bool=false;
-                        if(bool&&Math.abs(data[i+2]-color[2])>color[4])bool=false;
-                        if(bool&&Math.abs(data[i+3]-color[3])>color[4])bool=false;
+                        if(Math.abs(data[i]-color[0])>deviation)bool=false;
+                        if(bool&&Math.abs(data[i+1]-color[1])>deviation)bool=false;
+                        if(bool&&Math.abs(data[i+2]-color[2])>deviation)bool=false;
+                        if(bool&&Math.abs(data[i+3]-color[3])>deviation)bool=false;
                         if(!bool)gridList.push({x:x, y:y,data:[data[i],data[i+1],data[i+2],data[i+3]]});
                     }
                 }
             }else{
-                for (let x = 0; x < width; x += step) {
-                    for (let y = 0; y < height; y += step) {
+                for (let x = 0; x < width; x += space) {
+                    for (let y = 0; y < height; y += space) {
                         let i=(y * width + x)*4;
-                        if(Math.abs(data[i]-color[0])>color[4])continue;
-                        if(Math.abs(data[i+1]-color[1])>color[4])continue;
-                        if(Math.abs(data[i+2]-color[2])>color[4])continue;
-                        if(Math.abs(data[i+3]-color[3])>color[4])continue;
+                        if(Math.abs(data[i]-color[0])>deviation)continue;
+                        if(Math.abs(data[i+1]-color[1])>deviation)continue;
+                        if(Math.abs(data[i+2]-color[2])>deviation)continue;
+                        if(Math.abs(data[i+3]-color[3])>deviation)continue;
                         gridList.push({x:x, y:y,data:[data[i],data[i+1],data[i+2],data[i+3]]});
                     }
                 }
             }
+            console.log(gridList);
             return gridList;
         }
     };

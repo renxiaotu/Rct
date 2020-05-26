@@ -206,7 +206,7 @@
         function getData(e){
             c_ctx.clearRect(0,0,current.width,current.height);
             let imgData=o_ctx.getImageData(e.offsetX,e.offsetY,1,1);
-            let list=rxt.rct.read.getGridByColor(original,[imgData.data[0],imgData.data[1],imgData.data[2],imgData.data[3],d.value],Math.max(1,s.value),r.checked);
+            let list=rxt.rct.read.getGridByColor(original,[imgData.data[0],imgData.data[1],imgData.data[2],imgData.data[3]],d.value,Math.max(1,s.value),r.checked);
             let imageDate=c_ctx.createImageData(current.width,current.height);
             for (let i in list){
                 let row=list[i];
