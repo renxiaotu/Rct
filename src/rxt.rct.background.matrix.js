@@ -9,6 +9,8 @@
         document.body.append(p);
 
         this.backgroundColor='#000';
+        this.color='#FFF';
+        this.colorDepth=.8;
         this.zIndex=-1;
         this.space=15;
         this.step=0.5;
@@ -41,7 +43,7 @@
 
 
             let add_num=Math.floor(w / _this.space)-l.length;
-            bg_ctx.fillStyle='rgb(255,255,255)';
+            bg_ctx.fillStyle=_this.color;
             if(add_num>0){
                 for(let i=0;i<add_num;i++){
                     for(let j=0;j<h;j+=10){
@@ -69,7 +71,7 @@
                 if(v>h)v=-_this.len;
                 let my_gradient=ctx.createLinearGradient(0,v,0,v+_this.len);
                 my_gradient.addColorStop(0,"rgba(0,0,0,1)");
-                my_gradient.addColorStop(0.5,"rgba(0,0,0,.8)");
+                my_gradient.addColorStop(0.5,"rgba(0,0,0,"+_this.colorDepth+")");
                 my_gradient.addColorStop(1,"rgba(0,0,0,1)");
                 ctx.fillStyle=my_gradient;
                 ctx.clearRect(i*_this.space,v+1,10,_this.len-2);
